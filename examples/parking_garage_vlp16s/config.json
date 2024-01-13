@@ -1,0 +1,24 @@
+{
+    "lidar_1": {
+        "frame_id": "lidar_h_link",
+        "topic": "/lidar_h/velodyne_points"
+    },
+    "lidar_2": {
+        "frame_id": "lidar_v_link",
+        "topic": "/lidar_v/velodyne_points"
+    },
+    "registration_error_thresholds": {
+        "rotation_deg": 10,
+        "translation_m": 0.3
+    },
+    "aggregation_movement_thresholds": {
+        "rotation_deg": 45,
+        "translation_m": 1
+    },
+    "voxel_downsample": [
+        0.05,
+        0.05,
+        0.05
+    ],
+    "lidar_type": "VELODYNE"
+}

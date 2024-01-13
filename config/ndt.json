@@ -1,0 +1,8 @@
+{
+  "matcher_type": "NDT",
+  "step_size":3,
+  "max_iter":100,
+  "t_eps":1e-8,
+  "res":5,
+  "min_res":0.05
+}
