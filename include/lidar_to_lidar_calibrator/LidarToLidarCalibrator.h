@@ -12,9 +12,11 @@ using PCLViewer = pcl::visualization::PCLVisualizer::Ptr;
 using ColorHandler =
     pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB>;
 
-class LidarToLidarCalibrator {
+class LidarToLidarCalibrator
+{
 public:
-  struct Inputs {
+  struct Inputs
+  {
     std::string poses;
     std::string extrinsics;
     std::string config;
@@ -25,18 +27,21 @@ public:
     bool display;
   };
 
-  struct LidarConfig {
+  struct LidarConfig
+  {
     std::string frame_id;
     std::string topic;
     Eigen::Matrix4d T_B_L; // T_Baselink_Lidar initial
   };
 
-  struct PoseThreshold {
+  struct PoseThreshold
+  {
     double rotation_deg;
     double translation_m;
   };
 
-  struct Config {
+  struct Config
+  {
     Eigen::Vector3f voxel_size;
     double rotation_thresh_rad;
     double trans_thresh_m;
@@ -46,10 +51,11 @@ public:
     PoseThreshold aggregation;  // or criteria
     std::string lidar_type;     // VELODYNE OR OUSTER
 
-    void LoadFromJson(const std::string& config_path);
+    void LoadFromJson(const std::string &config_path);
   };
 
-  struct Measurement {
+  struct Measurement
+  {
     Eigen::Matrix4d T_Lidar1_Lidar2;
     double error_rot_rad;
     double error_trans_m;
@@ -58,7 +64,7 @@ public:
     bool valid{false};
   };
 
-  explicit LidarToLidarCalibrator(const Inputs& inputs);
+  explicit LidarToLidarCalibrator(const Inputs &inputs);
 
   ~LidarToLidarCalibrator() = default;
 
@@ -73,16 +79,16 @@ private:
 
   void GetMeasurements();
 
-  void GetMeasurement(Measurement& m);
+  void GetMeasurement(Measurement &m);
 
-  PointCloudPtr AggregateScansFromBag(const ros::Time& start_time,
-                                      const ros::Time& end_time,
-                                      const std::string& topic,
-                                      const Eigen::Matrix4d& T_B_L) const;
+  PointCloudPtr AggregateScansFromBag(const ros::Time &start_time,
+                                      const ros::Time &end_time,
+                                      const std::string &topic,
+                                      const Eigen::Matrix4d &T_B_L) const;
 
   void UpdateViewer();
 
-  void KeyboardEventOccurred(const pcl::visualization::KeyboardEvent& event);
+  void KeyboardEventOccurred(const pcl::visualization::KeyboardEvent &event);
 
   void DisplayInstructions();
 
@@ -117,4 +123,5 @@ private:
 
   // params
   std::vector<double> backgound_rgb_{0.8, 0.8, 0.8};
+  double min_pose_rate_hz_{30};
 };

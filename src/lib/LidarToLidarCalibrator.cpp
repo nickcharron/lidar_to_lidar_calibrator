@@ -94,6 +94,19 @@ void LidarToLidarCalibrator::LoadPoses() {
     poses_tree_.AddTransform(T, poses_.GetFixedFrame(), poses_.GetMovingFrame(),
                              timestamps[i]);
   }
+
+  // validate against min pose rate
+  double dt_s = (timestamps.back() - timestamps.front()).toSec();
+  double rate_hz = timestamps.size() / dt_s;
+  if (rate_hz < min_pose_rate_hz_) {
+    BEAM_ERROR("Trajectory has a low rate {} Hz which is below min threshold "
+               "of {}. We recommend using a higher rate trajectory or you will "
+               "get poor calibration results.",
+               static_cast<int>(rate_hz), static_cast<int>(min_pose_rate_hz_));
+  } else {
+    BEAM_INFO("Trajectory rate {} Hz is higher than min threshold of {}. Good!",
+              static_cast<int>(rate_hz), static_cast<int>(min_pose_rate_hz_));
+  }
 }
 
 void LidarToLidarCalibrator::LoadExtrinsics() {
